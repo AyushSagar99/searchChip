@@ -39,22 +39,22 @@ export default function SearchBar({ data }) {
   return (
     <div className="fixed grid justify-center items-center top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
       <label className="text-[rgba(122,122,123,255)] font-extralight text-xs">INPUT TAGS</label>
-      <div className="relative">
+      <div className="relative flex items-center rounded-2xl bg-search-rgba">
+        <div className="flex text-center ">
+          {chips.map((chip, index) => (
+            <div key={index} className="bg-white rounded-xl p-1 shadow-gray-700 text-sm ml-2 shadow-sm ">
+              {chip}
+              <span className="ml-2 cursor-pointer text-sm " onClick={() => handleRemoveChip(chip)}>X</span>
+            </div>
+          ))}
+        </div>
         <input 
           type="search" 
           onChange={(e) => handleChange(e.target.value)} 
           value={searchValue}
-          className="rounded-2xl bg-search-rgba p-2 w-80"
+          className="rounded-2xl bg-search-rgba p-2 ml-2 focus-within:outline-none w-full"
           placeholder={chips.length > 0 ? "" : "Search..."}
         />
-        <div className="absolute top-1 -left-1 flex   items-center">
-          {chips.map((chip, index) => (
-            <div key={index} className="bg-white rounded-xl px-3 py-1 text-sm ml-2 shadow-xl ">
-              {chip}
-              <span className="ml-2 cursor-pointer text-sm" onClick={() => handleRemoveChip(chip)}>X</span>
-            </div>
-          ))}
-        </div>
         {isLoading && (
           <div className="absolute right-3 top-3">
             <ClipLoader size={20} color={"#123abc"} loading={isLoading} />
@@ -66,7 +66,8 @@ export default function SearchBar({ data }) {
           filteredData.map((value, key) => (
             <div 
               key={key} 
-              className="p-2 hover:shadow-inner transition bg-white border-gray-300 cursor-pointer hover:bg-search-rgba hover:rounded-2xl"
+              className="p-2 hover:shadow-inner transition bg-white border-gray-300 cursor-pointer
+               hover:bg-search-rgba hover:rounded-2xl"
               onClick={() => handleChipClick(value)} 
             >
               {value}
