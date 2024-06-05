@@ -12,7 +12,7 @@ export default function SearchBar({ data }) {
     setIsLoading(true);
     setTimeout(() => {
       const results = data.filter(item =>
-        item.toLowerCase().startsWith(value.toLowerCase())
+        item.toLowerCase().includes(value.toLowerCase()) && !chips.includes(item) 
       );
       setFilteredData(results);
       setIsLoading(false);
@@ -33,12 +33,16 @@ export default function SearchBar({ data }) {
       setChips([...chips, value]);
     }
     setSearchValue("");
+    setFilteredData(filteredData.filter(item => item !== value)); 
     inputRef.current.focus();
   };
 
   const handleRemoveChip = (chipToRemove) => {
     setChips(chips.filter(chip => chip !== chipToRemove));
     inputRef.current.focus();
+    if (searchValue) {
+      search(searchValue); 
+    }
   };
 
   return (
@@ -71,16 +75,24 @@ export default function SearchBar({ data }) {
       </div>
       <div className="transition shadow-xl shadow-black rounded-2xl mt-2 w-full bg-white">
         {filteredData.length > 0 ? (
-          filteredData.map((value, key) => (
-            <div 
-              key={key} 
-              className="p-2 hover:shadow-inner transition bg-white border-gray-300 cursor-pointer
-               hover:bg-search-rgba hover:rounded-2xl rounded-xl"
-              onClick={() => handleChipClick(value)} 
-            >
-              {value}
-            </div>
-          ))
+          filteredData.map((value, key) => {
+            const startIndex = value.toLowerCase().indexOf(searchValue.toLowerCase());
+            const endIndex = startIndex + searchValue.length;
+            const matchedText = value.slice(startIndex, endIndex);
+            const beforeText = value.slice(0, startIndex);
+            const afterText = value.slice(endIndex);
+
+            return (
+              <div 
+                key={key} 
+                className="p-2 hover:shadow-inner transition bg-white border-gray-300 cursor-pointer
+                 hover:bg-search-rgba  hover:rounded-2xl rounded-xl"
+                onClick={() => handleChipClick(value)} 
+              >
+                {beforeText}<span className="text-blue-500">{matchedText}</span>{afterText}
+              </div>
+            );
+          })
         ) : (
           !isLoading && searchValue && (
             <div className="p-2 text-gray-500 shadow-none">No matches found</div>
