@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import toast from 'react-hot-toast';
 import { GiCancel } from 'react-icons/gi';
+import { MdAdd } from 'react-icons/md';
 import ClipLoader from "react-spinners/ClipLoader";
 
 export default function SearchBar({ data }) {
@@ -57,7 +58,7 @@ export default function SearchBar({ data }) {
           {chips.map((chip, index) => (
             <div key={index} className="bg-white rounded-lg px-3 py-1 flex leading-none shadow-gray-700 text-sm mr-2 mb-1 shadow-sm">
               {chip}
-              <span className="ml-2 cursor-pointer text-sm text-center text-red-600" onClick={() => handleRemoveChip(chip)}> <GiCancel/> </span>
+              <span className="ml-2 cursor-pointer text-md font-medium text-center text-stone-500 rotate-45" onClick={() => handleRemoveChip(chip)}> <MdAdd /> </span>
             </div>
           ))}
           <input 
