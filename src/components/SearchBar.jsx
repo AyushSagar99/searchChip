@@ -53,10 +53,11 @@ export default function SearchBar({ data }) {
   return (
     <div className="fixed inset-0 flex flex-col justify-between items-center">
       <div className="flex flex-col justify-center items-center w-full max-w-lg p-4 mt-auto mb-auto">
-        <motion.label className="text-[rgba(122,122,123,255)] font-extralight text-xs mb-2 mr-[25rem]"
+        <motion.label className="text-[rgba(122,122,123,255)] font-extralight text-xs mb-2 mr-[17rem] sm:mr-[25rem] "
         initial={{opacity:0,y:500}}
         animate={{opacity:1,y:0}}
         transition={{delay:0.175}}
+        
         >INPUT TAGS</motion.label>
         <div className="relative flex items-center rounded-2xl bg-search-rgba p-2 w-full">
           <div className="flex flex-wrap items-center flex-grow">
