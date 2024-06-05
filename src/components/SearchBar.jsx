@@ -1,4 +1,6 @@
 import React, { useState, useRef } from 'react';
+import toast from 'react-hot-toast';
+import { GiCancel } from 'react-icons/gi';
 import ClipLoader from "react-spinners/ClipLoader";
 
 export default function SearchBar({ data }) {
@@ -12,9 +14,9 @@ export default function SearchBar({ data }) {
     setIsLoading(true);
     setTimeout(() => {
       const results = data.filter(item =>
-        item.toLowerCase().includes(value.toLowerCase()) && !chips.includes(item) 
+        item.toLowerCase().includes(value.toLowerCase()) && !chips.includes(item)
       );
-      setFilteredData(results);
+      setFilteredData(results.slice(0, 5));
       setIsLoading(false);
     }, 500);
   };
@@ -31,17 +33,19 @@ export default function SearchBar({ data }) {
   const handleChipClick = (value) => {
     if (!chips.includes(value)) {
       setChips([...chips, value]);
+      toast.success(`Chip added: ${value}`);
     }
     setSearchValue("");
-    setFilteredData(filteredData.filter(item => item !== value)); 
+    setFilteredData([]); 
     inputRef.current.focus();
   };
 
   const handleRemoveChip = (chipToRemove) => {
     setChips(chips.filter(chip => chip !== chipToRemove));
+    toast.error(`Chip removed: ${chipToRemove}`);
     inputRef.current.focus();
     if (searchValue) {
-      search(searchValue); 
+      search(searchValue);
     }
   };
 
@@ -53,7 +57,7 @@ export default function SearchBar({ data }) {
           {chips.map((chip, index) => (
             <div key={index} className="bg-white rounded-lg px-3 py-1 flex leading-none shadow-gray-700 text-sm mr-2 mb-1 shadow-sm">
               {chip}
-              <span className="ml-2 cursor-pointer text-sm text-center" onClick={() => handleRemoveChip(chip)}>X</span>
+              <span className="ml-2 cursor-pointer text-sm text-center text-red-600" onClick={() => handleRemoveChip(chip)}> <GiCancel/> </span>
             </div>
           ))}
           <input 
@@ -62,7 +66,7 @@ export default function SearchBar({ data }) {
             value={searchValue}
             ref={inputRef}
             autoFocus
-            className="bg-search-rgba p-2 ml-2 flex-grow focus:outline-none"
+            className="bg-search-rgba p-2 ml-2 flex-grow focus:outline-none "
             placeholder={chips.length > 0 ? "" : "Search..."}
             style={{ minWidth: '100px' }}
           />
@@ -74,7 +78,7 @@ export default function SearchBar({ data }) {
         )}
       </div>
       <div className="transition shadow-xl shadow-black rounded-2xl mt-2 w-full bg-white">
-        {filteredData.length > 0 ? (
+        {filteredData.length > 0 && searchValue !== "" ? (
           filteredData.map((value, key) => {
             const startIndex = value.toLowerCase().indexOf(searchValue.toLowerCase());
             const endIndex = startIndex + searchValue.length;
@@ -86,7 +90,7 @@ export default function SearchBar({ data }) {
               <div 
                 key={key} 
                 className="p-2 hover:shadow-inner transition bg-white border-gray-300 cursor-pointer
-                 hover:bg-search-rgba  hover:rounded-2xl rounded-xl"
+                 hover:bg-search-rgba hover:rounded-2xl rounded-xl"
                 onClick={() => handleChipClick(value)} 
               >
                 {beforeText}<span className="text-blue-500">{matchedText}</span>{afterText}
