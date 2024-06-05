@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import toast from 'react-hot-toast';
-import { GiCancel } from 'react-icons/gi';
 import { MdAdd } from 'react-icons/md';
+import {motion} from "framer-motion"
 import ClipLoader from "react-spinners/ClipLoader";
 
 export default function SearchBar({ data }) {
@@ -53,13 +53,19 @@ export default function SearchBar({ data }) {
   return (
     <div className="fixed inset-0 flex flex-col justify-between items-center">
       <div className="flex flex-col justify-center items-center w-full max-w-lg p-4 mt-auto mb-auto">
-        <label className="text-[rgba(122,122,123,255)] font-extralight text-xs mb-2">INPUT TAGS</label>
+        <motion.label className="text-[rgba(122,122,123,255)] font-extralight text-xs mb-2 mr-[25rem]"
+        initial={{opacity:0,y:500}}
+        animate={{opacity:1,y:0}}
+        transition={{delay:0.175}}
+        >INPUT TAGS</motion.label>
         <div className="relative flex items-center rounded-2xl bg-search-rgba p-2 w-full">
           <div className="flex flex-wrap items-center flex-grow">
             {chips.map((chip, index) => (
-              <div key={index} className="bg-white rounded-lg px-3 py-1 flex leading-none shadow-gray-700 text-sm mr-2 mb-1 shadow-sm">
+              <div key={index} className="bg-white rounded-lg px-3 py-1 flex leading-none
+               shadow-gray-700 text-sm mr-2 mb-1 shadow-sm">
                 {chip}
-                <span className="ml-2 cursor-pointer text-md font-medium text-center text-stone-500 rotate-45" onClick={() => handleRemoveChip(chip)}> <MdAdd /> </span>
+                <span className="ml-2 cursor-pointer text-md font-medium text-center
+                 text-stone-500 rotate-45" onClick={() => handleRemoveChip(chip)}> <MdAdd /> </span>
               </div>
             ))}
             <input 

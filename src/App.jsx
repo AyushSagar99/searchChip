@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SearchBar from "./components/SearchBar";
 import { data } from "./utils/data";
-import {motion} from "framer-motion"
+import {motion} from "framer-motion";
 import { Toaster } from "react-hot-toast";
 
 function App() {
