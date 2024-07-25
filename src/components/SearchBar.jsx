@@ -52,7 +52,7 @@ export default function SearchBar({ data }) {
 
   return (
     <div className="fixed inset-0 flex flex-col justify-between items-center">
-      <div className="flex flex-col justify-center items-center w-full max-w-lg p-4 mt-auto mb-auto">
+      <div className="flex flex-col  relative justify-center items-center w-full max-w-lg p-4 mt-auto mb-auto">
         <motion.label className="text-[rgba(122,122,123,255)] font-extralight text-xs mb-2 mr-[17rem] sm:mr-[25rem] "
         initial={{opacity:0,y:500}}
         animate={{opacity:1,y:0}}
@@ -86,7 +86,7 @@ export default function SearchBar({ data }) {
             </div>
           )}
         </div>
-        <div className="transition shadow-xl shadow-black rounded-2xl mt-2 w-full bg-white">
+        <div className="transition  shadow-sm absolute top-[5rem] shadow-black rounded-2xl mt-2 w-[30rem] bg-white">
           {filteredData.length > 0 && searchValue !== "" ? (
             filteredData.map((value, key) => {
               const startIndex = value.toLowerCase().indexOf(searchValue.toLowerCase());
